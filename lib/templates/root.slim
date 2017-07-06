@@ -1,0 +1,17 @@
+feed(xmlns="http://www.w3.org/2005/Atom" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:thr="http://purl.org/syndication/thread/1.0" xmlns:opds="http://opds-spec.org/2010/catalog" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:lang="en")
+  title #{title}
+  updated Today
+  author
+    name Charles Mulloy
+  - if !self_link.nil? 
+    link(rel="self" href="#{self_link}" type="application/atom+xml;profile=opds-catalog;kind=navigation")
+  - if !start.nil?
+    link(rel="start" href="#{start}" type="application/atom+xml;profile=opds-catalog;kind=navigation")
+  - for i in links do
+      entry
+        title #{i.title}
+        content #{i.content}
+        - if i.class == NavigationEntry
+          link(rel="subsection" href="#{i.link}" type="application/atom+xml; profile=opds-catalog; kind=navigation")
+        - if i.class == AcquisitionEntry
+          link(rel="subsection" type="application/atom+xml; profile=opds-catalog; kind=acquisition") 
